@@ -7,13 +7,19 @@ from decouple import config
 from fastapi import BackgroundTasks, FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi import FastAPI, UploadFile
-
+from ocr import image_to_text
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI()
 
+@app.post('/image_to_text')
+def get_text_from_image(image):
+    text = image_to_text(image)
+    return{"response": text}
+
+
 @app.post("/upload_image", status_code=200, tags=["Recipt Scanner"])
-def index(request: Request, file: UploadFile):
+def upload_image(request: Request, file: UploadFile):
     return {"response": file.filename}
 
 
@@ -21,7 +27,7 @@ def index(request: Request, file: UploadFile):
 tags_metadata = [
     {
         "name": "Recipt Scanner",
-        "description": "This End point used to extract the text information form QR Code",
+        "description": "This End point used to extract the text information form Image",
     }
 ]
 

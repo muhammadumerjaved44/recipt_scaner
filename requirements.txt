@@ -11,3 +11,4 @@ aiofiles
 pyodbc
 Jinja2
 python-multipart
+pytesseract
